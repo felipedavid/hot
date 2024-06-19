@@ -17,7 +17,7 @@ func GetUser(ctx context.Context, id string) (*types.User, error) {
 		return nil, err
 	}
 
-	err = userColl.FindOne(ctx, bson.M{"_id": oid}).Decode(&user)
+	err = usersColl.FindOne(ctx, bson.M{"_id": oid}).Decode(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func GetUser(ctx context.Context, id string) (*types.User, error) {
 }
 
 func GetUsers(ctx context.Context) ([]*types.User, error) {
-	cur, err := userColl.Find(ctx, bson.M{})
+	cur, err := usersColl.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func GetUsers(ctx context.Context) ([]*types.User, error) {
 }
 
 func InsertUser(ctx context.Context, user *types.User) error {
-	res, err := userColl.InsertOne(ctx, user)
+	res, err := usersColl.InsertOne(ctx, user)
 	if err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func DeleteUser(ctx context.Context, id string) error {
 		return err
 	}
 
-	res, err := userColl.DeleteOne(ctx, bson.M{"_id": oid})
+	res, err := usersColl.DeleteOne(ctx, bson.M{"_id": oid})
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ func UpdateUser(ctx context.Context, user *types.User) error {
 		return err
 	}
 
-	_, err = userColl.UpdateOne(ctx, bson.M{"_id": oid}, update)
+	_, err = usersColl.UpdateOne(ctx, bson.M{"_id": oid}, update)
 	if err != nil {
 		return err
 	}

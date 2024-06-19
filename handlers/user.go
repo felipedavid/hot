@@ -33,7 +33,7 @@ func getUser(w http.ResponseWriter, r *http.Request) error {
 
 func createUser(w http.ResponseWriter, r *http.Request) error {
 	var params types.CreateUserParams
-	err := readJSON(r.Body, &params)
+	err := readJSON(r, &params)
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func updateUser(w http.ResponseWriter, r *http.Request) error {
 	userID := r.PathValue("id")
 
 	var params types.UpdateUserParams
-	err := readJSON(r.Body, &params)
+	err := readJSON(r, &params)
 	if err != nil {
 		return err
 	}

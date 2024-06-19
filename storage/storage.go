@@ -1,9 +1,21 @@
 package storage
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"context"
 
-var userColl *mongo.Collection
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+var usersColl *mongo.Collection
+var hotelsColl *mongo.Collection
+var roomsColl *mongo.Collection
 
 func Init(database *mongo.Database) {
-	userColl = database.Collection("users")
+	usersColl = database.Collection("users")
+	hotelsColl = database.Collection("hotels")
+	roomsColl = database.Collection("rooms")
+}
+
+func Drop(ctx context.Context) error {
+	return nil
 }
