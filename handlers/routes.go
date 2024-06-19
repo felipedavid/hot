@@ -2,36 +2,41 @@ package handlers
 
 import (
 	"net/http"
-
-	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
+
+type CustomHandler func(w http.ResponseWriter, r *http.Request) error
 
 func Routes() http.Handler {
 	mux := http.NewServeMux()
 
-	mux.Handle("/swagger/*", httpSwagger.Handler(
-		httpSwagger.URL("http://localhost:3000/swagger/doc.json"),
-	))
+	defineUnprotectedRoute(mux, "POST /api/v1/auth", authenticateUser)
 
-	mux.HandleFunc("GET /api/v1/user", defaultHandler(listUsers))
-	mux.HandleFunc("GET /api/v1/user/{id}", defaultHandler(getUser))
-	mux.HandleFunc("POST /api/v1/user", defaultHandler(createUser))
-	mux.HandleFunc("DELETE /api/v1/user/{id}", defaultHandler(deleteUser))
-	mux.HandleFunc("PATCH /api/v1/user/{id}", defaultHandler(updateUser))
+	defineRoute(mux, "GET /api/v1/user", listUsers)
+	defineRoute(mux, "GET /api/v1/user/{id}", getUser)
+	defineRoute(mux, "POST /api/v1/user", createUser)
+	defineRoute(mux, "DELETE /api/v1/user/{id}", deleteUser)
+	defineRoute(mux, "PATCH /api/v1/user/{id}", updateUser)
 
-	mux.HandleFunc("GET /api/v1/hotel", defaultHandler(listHotels))
-	mux.HandleFunc("GET /api/v1/hotel/{id}", defaultHandler(getHotel))
-	mux.HandleFunc("GET /api/v1/hotel/{id}/rooms", defaultHandler(getRoomsFromHotel))
-	mux.HandleFunc("POST /api/v1/hotel", defaultHandler(createHotel))
-	mux.HandleFunc("DELETE /api/v1/hotel/{id}", defaultHandler(deleteHotel))
-	mux.HandleFunc("PATCH /api/v1/hotel/{id}", defaultHandler(updateHotel))
+	defineRoute(mux, "GET /api/v1/hotel", listHotels)
+	defineRoute(mux, "GET /api/v1/hotel/{id}", getHotel)
+	defineRoute(mux, "GET /api/v1/hotel/{id}/rooms", getRoomsFromHotel)
+	defineRoute(mux, "POST /api/v1/hotel", createHotel)
+	defineRoute(mux, "DELETE /api/v1/hotel/{id}", deleteHotel)
+	defineRoute(mux, "PATCH /api/v1/hotel/{id}", updateHotel)
 
 	return mux
 }
 
-type CustomHandler func(w http.ResponseWriter, r *http.Request) error
+func defineUnprotectedRoute(mux *http.ServeMux, path string, h CustomHandler) {
+	mux.HandleFunc(path, centralErrorHandler(h))
+}
 
-func defaultHandler(h CustomHandler) func(w http.ResponseWriter, r *http.Request) {
+func defineRoute(mux *http.ServeMux, path string, h CustomHandler) {
+	h = Authentication(h)
+	mux.HandleFunc(path, centralErrorHandler(h))
+}
+
+func centralErrorHandler(h CustomHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := h(w, r)
 		if err != nil {
