@@ -76,13 +76,13 @@ func DeleteUser(ctx context.Context, id string) error {
 }
 
 func UpdateUser(ctx context.Context, user *types.User) error {
-	update := bson.D{
-		{"$set", bson.D{
-			{"first_name", user.FirstName},
-			{"last_name", user.LastName},
-			{"email", user.Email},
-			{"hashed_password", user.HashedPassword},
-		}},
+	update := bson.M{
+		"$set": bson.M{
+			"first_name":      user.FirstName,
+			"last_name":       user.LastName,
+			"email":           user.Email,
+			"hashed_password": user.HashedPassword,
+		},
 	}
 
 	oid, err := primitive.ObjectIDFromHex(user.ID)

@@ -94,9 +94,6 @@ func updateUser(w http.ResponseWriter, r *http.Request) error {
 	if params.LastName != nil {
 		user.LastName = *params.LastName
 	}
-	if params.Email != nil {
-		user.Email = *params.Email
-	}
 
 	if params.Password != nil {
 		hPassword, err := bcrypt.GenerateFromPassword([]byte(*params.Password), bcrypt.DefaultCost)

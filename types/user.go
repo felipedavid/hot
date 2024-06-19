@@ -11,7 +11,6 @@ var emailRx = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 type UpdateUserParams struct {
 	FirstName *string `json:"first_name"`
 	LastName  *string `json:"last_name"`
-	Email     *string `json:"email"`
 	Password  *string `json:"password"`
 
 	UpdateUserParamsErrors
@@ -39,11 +38,6 @@ func (p *UpdateUserParams) Validate() (valid bool) {
 
 	if p.LastName != nil && len(*p.LastName) < 2 {
 		p.LastNameError = "last name too short"
-		valid = false
-	}
-
-	if p.Email != nil && !emailRx.MatchString(*p.Email) {
-		p.EmailError = "invalid email address"
 		valid = false
 	}
 
