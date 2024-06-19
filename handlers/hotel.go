@@ -98,3 +98,14 @@ func updateHotel(w http.ResponseWriter, r *http.Request) error {
 
 	return writeJSON(w, hotel)
 }
+
+func getRoomsFromHotel(w http.ResponseWriter, r *http.Request) error {
+	hotelID := r.PathValue("id")
+
+	rooms, err := storage.GetRoomsFromHotel(context.Background(), hotelID)
+	if err != nil {
+		return err
+	}
+
+	return writeJSON(w, rooms)
+}

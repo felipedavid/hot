@@ -21,6 +21,7 @@ func Routes() http.Handler {
 
 	mux.HandleFunc("GET /api/v1/hotel", defaultHandler(listHotels))
 	mux.HandleFunc("GET /api/v1/hotel/{id}", defaultHandler(getHotel))
+	mux.HandleFunc("GET /api/v1/hotel/{id}/rooms", defaultHandler(getRoomsFromHotel))
 	mux.HandleFunc("POST /api/v1/hotel", defaultHandler(createHotel))
 	mux.HandleFunc("DELETE /api/v1/hotel/{id}", defaultHandler(deleteHotel))
 	mux.HandleFunc("PATCH /api/v1/hotel/{id}", defaultHandler(updateHotel))

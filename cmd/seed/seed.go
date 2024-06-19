@@ -36,14 +36,13 @@ func main() {
 	}
 
 	rooms := []types.Room{
-		{Type: types.SingleRT, BasePrice: 100, Price: 200, HotelID: hotels[0].ID},
-		{Type: types.DeluxRT, BasePrice: 400, Price: 500, HotelID: hotels[0].ID},
-		{Type: types.DoubleRT, BasePrice: 200, Price: 300, HotelID: hotels[0].ID},
-		{Type: types.SeaSideRT, BasePrice: 300, Price: 400, HotelID: hotels[0].ID},
-		{Type: types.SingleRT, BasePrice: 100, Price: 200, HotelID: hotels[1].ID},
-		{Type: types.DoubleRT, BasePrice: 200, Price: 300, HotelID: hotels[1].ID},
-		{Type: types.SeaSideRT, BasePrice: 300, Price: 400, HotelID: hotels[1].ID},
-		{Type: types.DeluxRT, BasePrice: 400, Price: 500, HotelID: hotels[1].ID},
+		{Size: "small", BasePrice: 100, Price: 200, HotelID: hotels[0].ID},
+		{Size: "small", BasePrice: 400, Price: 500, HotelID: hotels[0].ID},
+		{Size: "small", BasePrice: 200, Price: 300, HotelID: hotels[0].ID},
+		{Size: "normal", BasePrice: 300, Price: 400, HotelID: hotels[0].ID},
+		{Size: "small", BasePrice: 100, Price: 200, HotelID: hotels[1].ID},
+		{Size: "kingsize", BasePrice: 200, Price: 300, HotelID: hotels[1].ID},
+		{Size: "small", BasePrice: 400, Price: 500, HotelID: hotels[1].ID},
 	}
 
 	for _, room := range rooms {

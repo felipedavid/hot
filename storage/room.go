@@ -76,7 +76,7 @@ func DeleteRoom(ctx context.Context, id string) error {
 func UpdateRoom(ctx context.Context, room *types.Room) error {
 	update := bson.M{
 		"$set": bson.M{
-			"type":       room.Type,
+			"size":       room.Size,
 			"base_price": room.BasePrice,
 			"price":      room.Price,
 			"hotel_id":   room.HotelID,
@@ -94,4 +94,19 @@ func UpdateRoom(ctx context.Context, room *types.Room) error {
 	}
 
 	return nil
+}
+
+func GetRoomsFromHotel(ctx context.Context, hotelID string) ([]*types.Room, error) {
+	cur, err := roomsColl.Find(ctx, bson.M{"hotel_id": hotelID})
+	if err != nil {
+		return nil, err
+	}
+
+	var rooms []*types.Room
+	err = cur.All(ctx, &rooms)
+	if err != nil {
+		return nil, err
+	}
+
+	return rooms, nil
 }

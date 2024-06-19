@@ -56,20 +56,11 @@ func NewHotel(p *CreateHotelParams) *Hotel {
 	}
 }
 
-type RoomType int
-
-const (
-	_ RoomType = iota
-	SingleRT
-	DoubleRT
-	SeaSideRT
-	DeluxRT
-)
-
 type Room struct {
-	ID        string   `bson:"_id,omitempty" json:"id"`
-	Type      RoomType `bson:"type" json:"type"`
-	BasePrice float64  `bson:"base_price" json:"base_price"`
-	Price     float64  `bson:"price" json:"price"`
-	HotelID   string   `bson:"hotel_id" json:"hotel_id"`
+	ID        string  `bson:"_id,omitempty" json:"id"`
+	SeaSide   bool    `bson:"sea_side" json:"sea_side"`
+	Size      string  `bson:"size" json:"size"`
+	BasePrice float64 `bson:"base_price" json:"base_price"`
+	Price     float64 `bson:"price" json:"price"`
+	HotelID   string  `bson:"hotel_id" json:"hotel_id"`
 }
