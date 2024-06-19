@@ -1,0 +1,24 @@
+meta {
+  name: Create User
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{url}}/api/v1/user
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "first_name": "felipe",
+    "last_name": "david",
+    "email": "felipedavid.huhgmail.com",
+    "password": "123456"
+  }
+}

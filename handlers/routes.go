@@ -1,15 +1,23 @@
 package handlers
 
 import (
-	"encoding/json"
 	"net/http"
+
+	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
 func Routes() http.Handler {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/api/v1/users", defaultHandler(listUsers))
-	mux.HandleFunc("/api/v1/user/{id}", defaultHandler(getUser))
+	mux.Handle("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:3000/swagger/doc.json"),
+	))
+
+	mux.HandleFunc("GET /api/v1/user", defaultHandler(listUsers))
+	mux.HandleFunc("GET /api/v1/user/{id}", defaultHandler(getUser))
+	mux.HandleFunc("POST /api/v1/user", defaultHandler(createUser))
+	mux.HandleFunc("DELETE /api/v1/user/{id}", defaultHandler(deleteUser))
+	mux.HandleFunc("PATCH /api/v1/user/{id}", defaultHandler(updateUser))
 
 	return mux
 }
@@ -20,13 +28,9 @@ func defaultHandler(h CustomHandler) func(w http.ResponseWriter, r *http.Request
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := h(w, r)
 		if err != nil {
-			e := map[string]string{
+			_ = writeJSON(w, map[string]string{
 				"error": err.Error(),
-			}
-
-			data, _ := json.Marshal(e)
-
-			_, _ = w.Write(data)
+			})
 		}
 	}
 }

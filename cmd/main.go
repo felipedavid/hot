@@ -25,8 +25,7 @@ func main() {
 	}
 	database := client.Database(*dbName)
 
-	mongoStorage := storage.NewMongoStorage(database)
-	handlers.Init(mongoStorage)
+	storage.Init(database)
 
 	server := http.Server{
 		Addr:    *addr,

@@ -1,0 +1,17 @@
+meta {
+  name: Update user
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{url}}/api/v1/user/667219d48f7081168c2c92f6
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "first_name": "jarlan"
+  }
+}

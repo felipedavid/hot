@@ -1,3 +1,5 @@
+.PHONY: build run
+
 build:
 	@echo "Building..."
 	@go build -o bin/app ./cmd/...

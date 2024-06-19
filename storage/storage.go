@@ -1,11 +1,9 @@
 package storage
 
-import (
-	"context"
+import "go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/felipedavid/hot/types"
-)
+var userColl *mongo.Collection
 
-type Storage interface {
-	GetUser(ctx context.Context, id string) (*types.User, error)
+func Init(database *mongo.Database) {
+	userColl = database.Collection("users")
 }
